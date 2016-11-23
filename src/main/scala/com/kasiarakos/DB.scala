@@ -12,15 +12,14 @@ class DB private(val underlying: MongoDB) {
 
   private def collection(name: String) = underlying.getCollection(name)
 
-  def readOnlyCollection(name: String) = new DBCollection(collection(name))
+  def readOnlyCollection(name: String) = new DBCollection(collection(name)) with Memoizer
 
-  def administrableCollection(name: String) = new
-      DBCollection(collection(name)) with Administrable
+  def administrableCollection(name: String) = new  DBCollection(collection(name)) with Administrable with Memoizer
 
-  def updatableCollection(name: String) = new
-      DBCollection(collection(name)) with Updatable
+  def updatableCollection(name: String) = new  DBCollection(collection(name)) with Updatable with Unmemoizer
 
   def collectionNames = for (name <- new JSetWrapper(underlying.getCollectionNames)) yield name
+
 }
 
 object DB {
