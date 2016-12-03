@@ -11,11 +11,9 @@ class MongoClient (val host:String, val port:Int){
   if(host == "127.0.0.1") println("host = localhost")
   else println("host = " + host)
 
-
   def this() = this("localhost", 27017)
 
   private val underlying = new Mongo(host, port)
-
 
   def version = underlying.getVersion
 
@@ -26,8 +24,5 @@ class MongoClient (val host:String, val port:Int){
   def db(name:String) = (DB) (underlying.getDB(name))
 
   override def toString: String = s"${host+" "+port}"
-
-
-
 
 }
